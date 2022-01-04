@@ -1,0 +1,41 @@
+---
+title: "Implementing ANOVA model to survey results"
+author: "Wendy Montano"
+date: "1/4/2022"
+output: html_document
+---
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+ 
+ 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl) 
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r import data and summary}
+Community_Health_Center_Survey_dataset <- read_excel("Community_Health_Center_Survey_dataset.xlsx")
+```
+
+##Test of Normality 
+```{r qqplot, echo=FALSE}
+qqnorm(Community_Health_Center_Survey_dataset$`Points Allocated (out of 100)`, main='QQ plot for points')
+qqline(Community_Health_Center_Survey_dataset$`Points Allocated (out of 100)`, col='red')
+```
+## Gender Analysis
+```{r gender bar and box plots, echo=FALSE}
+barplot(table(Community_Health_Center_Survey_dataset$gender), ylab='Frequency', main='Counts of Gender Representation', col='dark blue')
+boxplot(Community_Health_Center_Survey_dataset$`Points Allocated (out of 100)`~Community_Health_Center_Survey_dataset$gender, ylab='Points' ,xlab='Gender', main= "Points Allocated to Opening a Community Health Center")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
